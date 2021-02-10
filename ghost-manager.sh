@@ -87,22 +87,37 @@ function install-ghost-server() {
     elif [ "$DISTRO" == "freebsd" ]; then
       echo "hello, world"
     fi
+    npm install ghost-cli@latest -g
   fi
 }
 
 # Install Ghost
 install-ghost-server
 
-function configure-ghost() {
-  USERNAME="$(openssl rand -hex 5)"
+function configure-mysql() {
   PASSWORD="$(openssl rand -base64 25)"
-  useradd -m -s /bin/bash "$USERNAME" -p "$PASSWORD"
-  usermod -aG sudo "$USERNAME"
-  chown "$USERNAME":"$USERNAME" /var/www/html/
-  chmod 775 /var/www/html
-  echo "Username: $USERNAME"
+  mysql
+  ALTER USER "root"@"localhost" IDENTIFIED WITH mysql_native_password BY "$PASSWORD"
+  quit
+  echo "MySQL Information"
   echo "Password: $PASSWORD"
-  if [ -x "$(command -v ghost)" ]; then
-    ghost
+}
+
+function configure-ghost() {
+  if [ ! -f "$GHOST_MANAGER_PATH" ]; then
+    USERNAME="$(openssl rand -hex 5)"
+    PASSWORD="$(openssl rand -base64 25)"
+    useradd -m -s /bin/bash "$USERNAME" -p "$PASSWORD"
+    usermod -aG sudo "$USERNAME"
+    chown "$USERNAME":"$USERNAME" /var/www/html/
+    chmod 775 /var/www/html
+    echo "Linux Information"
+    echo "Username: $USERNAME"
+    echo "Password: $PASSWORD"
   fi
 }
+
+if [ ! -f "$GHOST_MANAGER_PATH" ]; then
+  mkdir -p $GHOST_PATH
+  echo "Ghost: True" >>$GHOST_MANAGER_PATH
+fi
