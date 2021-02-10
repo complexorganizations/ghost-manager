@@ -126,8 +126,8 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       usermod -aG sudo "$LINUX_USERNAME"
       rm -rf $GHOST_PATH
       mkdir -p $GHOST_PATH
-      chown "$LINUX_USERNAME":"$LINUX_USERNAME" /var/www/html/
-      chmod 775 /var/www/html
+      chown "$LINUX_USERNAME":"$LINUX_USERNAME" $GHOST_PATH
+      chmod 775 $GHOST_PATH
       echo "Linux Information"
       echo "Username: $LINUX_USERNAME"
       echo "Password: $LINUX_PASSWORD"
