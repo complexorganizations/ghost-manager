@@ -28,7 +28,7 @@ dist-check
 # Pre-Checks system requirements
 function installing-system-requirements() {
   if [ "$DISTRO" == "ubuntu" ] && { [ "$DISTRO_VERSION" == "16.04" ] && [ "$DISTRO_VERSION" == "18.04" ] && [ "$DISTRO_VERSION" == "20.04" ]; }; then
-    apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get install
+    apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y
   else
     echo "Error: $DISTRO not supported."
     exit
