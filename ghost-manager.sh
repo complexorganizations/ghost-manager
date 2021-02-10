@@ -129,14 +129,13 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       echo "Linux Information"
       echo "Username: $LINUX_USERNAME"
       echo "Password: $LINUX_PASSWORD"
-      su - $LINUX_USERNAME
-      cd /var/www/html
+      su - "$LINUX_USERNAME"
+      cd /var/www/html || exit
       ghost install
     fi
   }
 
   setup-linux-user
-
 
 else
 
