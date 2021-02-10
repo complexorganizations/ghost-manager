@@ -30,7 +30,6 @@ GHOST_PATH="/var/www/html"
 GHOST_DEVELOPMENT_CONFIG_PATH="$GHOST_PATH/config.development.json"
 GHOST_PRODUCTION_CONFIG_PATH="$GHOST_PATH/config.production.json"
 GHOST_MANAGER_PATH="$GHOST_PATH/ghost-manager"
-NGINX_GLOBAL_CONFIG="/etc/nginx/nginx.conf"
 
 # Pre-Checks system requirements
 function installing-system-requirements() {
