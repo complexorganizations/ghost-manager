@@ -72,63 +72,64 @@ previous-ghost-installation
 
 if [ ! -f "$GHOST_MANAGER_PATH" ]; then
 
-# Install Ghost Server
-function install-ghost-server() {
-  if { [ ! -x "$(command -v ghost)" ] || [ ! -x "$(command -v node)" ] || [ ! -x "$(command -v npm)" ] || [ ! -x "$(command -v nginx)" ] || [ ! -x "$(command -v mysql)" ]; }; then
-    curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash
-    if { [ "$DISTRO" == "ubuntu" ] || [ "$DISTRO" == "debian" ] || [ "$DISTRO" == "raspbian" ] || [ "$DISTRO" == "pop" ] || [ "$DISTRO" == "kali" ] || [ "$DISTRO" == "linuxmint" ]; }; then
-      apt-get update
-      apt-get install nginx mysql-server nodejs -y
+  # Install Ghost Server
+  function install-ghost-server() {
+    if { [ ! -x "$(command -v ghost)" ] || [ ! -x "$(command -v node)" ] || [ ! -x "$(command -v npm)" ] || [ ! -x "$(command -v nginx)" ] || [ ! -x "$(command -v mysql)" ]; }; then
+      curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash
+      if { [ "$DISTRO" == "ubuntu" ] || [ "$DISTRO" == "debian" ] || [ "$DISTRO" == "raspbian" ] || [ "$DISTRO" == "pop" ] || [ "$DISTRO" == "kali" ] || [ "$DISTRO" == "linuxmint" ]; }; then
+        apt-get update
+        apt-get install nginx mysql-server nodejs -y
+        npm install ghost-cli@latest -g
+      elif { [ "$DISTRO" == "fedora" ] || [ "$DISTRO" == "centos" ] || [ "$DISTRO" == "rhel" ]; }; then
+        echo "hello, world"
+      elif { [ "$DISTRO" == "arch" ] || [ "$DISTRO" == "manjaro" ]; }; then
+        echo "hello, world"
+      elif [ "$DISTRO" == "alpine" ]; then
+        echo "hello, world"
+      elif [ "$DISTRO" == "freebsd" ]; then
+        echo "hello, world"
+      fi
       npm install ghost-cli@latest -g
-    elif { [ "$DISTRO" == "fedora" ] || [ "$DISTRO" == "centos" ] || [ "$DISTRO" == "rhel" ]; }; then
-      echo "hello, world"
-    elif { [ "$DISTRO" == "arch" ] || [ "$DISTRO" == "manjaro" ]; }; then
-      echo "hello, world"
-    elif [ "$DISTRO" == "alpine" ]; then
-      echo "hello, world"
-    elif [ "$DISTRO" == "freebsd" ]; then
-      echo "hello, world"
     fi
-    npm install ghost-cli@latest -g
-  fi
-}
+  }
 
-# Install Ghost
-install-ghost-server
+  # Install Ghost
+  install-ghost-server
 
-function configure-mysql() {
-  PASSWORD="$(openssl rand -base64 25)"
-  mysql
-  ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY "$PASSWORD"
-  quit
-  echo "MySQL Information"
-  echo "Username: root"
-  echo "Password: $PASSWORD"
-}
-
-function setup-linux-user() {
-  if [ ! -f "$GHOST_MANAGER_PATH" ]; then
-    USERNAME="$(openssl rand -hex 5)"
+  function configure-mysql() {
     PASSWORD="$(openssl rand -base64 25)"
-    useradd -m -s /bin/bash "$USERNAME" -p "$PASSWORD"
-    usermod -aG sudo "$USERNAME"
-    chown "$USERNAME":"$USERNAME" /var/www/html/
-    chmod 775 /var/www/html
-    echo "Linux Information"
-    echo "Username: $USERNAME"
+    mysql
+    ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY "$PASSWORD"
+    quit
+    echo "MySQL Information"
+    echo "Username: root"
     echo "Password: $PASSWORD"
-  fi
-}
+  }
 
-setup-linux-user
+  function setup-linux-user() {
+    if [ ! -f "$GHOST_MANAGER_PATH" ]; then
+      USERNAME="$(openssl rand -hex 5)"
+      PASSWORD="$(openssl rand -base64 25)"
+      useradd -m -s /bin/bash "$USERNAME" -p "$PASSWORD"
+      usermod -aG sudo "$USERNAME"
+      chown "$USERNAME":"$USERNAME" /var/www/html/
+      chmod 775 /var/www/html
+      echo "Linux Information"
+      echo "Username: $USERNAME"
+      echo "Password: $PASSWORD"
+    fi
+  }
 
-function ghost-path-setup() {
-if [ ! -f "$GHOST_MANAGER_PATH" ]; then
-  mkdir -p $GHOST_PATH
-  echo "Ghost: True" >>$GHOST_MANAGER_PATH
-fi
+  setup-linux-user
 
-ghost-path-setup
+  function ghost-path-setup() {
+    if [ ! -f "$GHOST_MANAGER_PATH" ]; then
+      mkdir -p $GHOST_PATH
+      echo "Ghost: True" >>$GHOST_MANAGER_PATH
+    fi
+  }
+
+  ghost-path-setup
 
 else
 
