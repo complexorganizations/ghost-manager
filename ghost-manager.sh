@@ -160,7 +160,10 @@ else
       ghost update
       ;;
     2)
-      cp -r $GHOST_CONTENT_PATH $GHOST_BACKUP_PATH
+      if [ -d "$GHOST_CONTENT_PATH" ]; then
+        rm -f $GHOST_BACKUP_PATH
+        cp -r $GHOST_CONTENT_PATH $GHOST_BACKUP_PATH
+      fi
       ;;
     3)
       CURRENT_FILE_PATH="$(realpath "$0")"
