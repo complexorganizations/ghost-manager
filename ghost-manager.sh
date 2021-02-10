@@ -94,8 +94,8 @@ function install-ghost-server() {
 install-ghost-server
 
 function configure-ghost() {
-  USERNAME="$(openssl rand -hex 10)"
-  PASSWORD="$(openssl rand -base64 50)"
+  USERNAME="$(openssl rand -hex 5)"
+  PASSWORD="$(openssl rand -base64 25)"
   useradd -m -s /bin/bash "$USERNAME" -p "$PASSWORD"
   usermod -aG sudo "$USERNAME"
   chown "$USERNAME":"$USERNAME" /var/www/html/
