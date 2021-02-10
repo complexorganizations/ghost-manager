@@ -97,9 +97,10 @@ install-ghost-server
 function configure-mysql() {
   PASSWORD="$(openssl rand -base64 25)"
   mysql
-  ALTER USER "root"@"localhost" IDENTIFIED WITH mysql_native_password BY "$PASSWORD"
+  ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY "$PASSWORD"
   quit
   echo "MySQL Information"
+  echo "Username: root"
   echo "Password: $PASSWORD"
 }
 
