@@ -5,10 +5,10 @@
 
 ---
 ### Features
-- 
-- 
-- 
-- 
+- Save over $3,000/year ***https://valet.ghost.org***
+-
+-
+-
 
 ---
 ### Q&A
@@ -21,7 +21,7 @@ Why not use the offical installation?
 * Name: Prajwal Koirala
 * Website: [prajwalkoirala.com](https://www.prajwalkoirala.com)
 
----	
+---
 ### Credits
 Open Source Community
 

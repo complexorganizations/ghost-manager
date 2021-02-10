@@ -33,13 +33,23 @@ GHOST_MANAGER_PATH="$GHOST_PATH/ghost-manager"
 
 # Pre-Checks system requirements
 function installing-system-requirements() {
-  if [ ! -d "$GHOST_MANAGER_PATH" ]; then
-    if [ "$DISTRO" == "ubuntu" ] && { [ "$DISTRO_VERSION" == "16.04" ] && [ "$DISTRO_VERSION" == "18.04" ] && [ "$DISTRO_VERSION" == "20.04" ]; }; then
-      apt-get update && apt-get upgrade -y && apt-get install curl -y
-    else
-      echo "Error: $DISTRO not supported."
-      exit
+  if { [ "$DISTRO" == "ubuntu" ] || [ "$DISTRO" == "debian" ] || [ "$DISTRO" == "raspbian" ] || [ "$DISTRO" == "pop" ] || [ "$DISTRO" == "kali" ] || [ "$DISTRO" == "linuxmint" ] || [ "$DISTRO" == "fedora" ] || [ "$DISTRO" == "centos" ] || [ "$DISTRO" == "rhel" ] || [ "$DISTRO" == "arch" ] || [ "$DISTRO" == "manjaro" ] || [ "$DISTRO" == "alpine" ] || [ "$DISTRO" == "freebsd" ]; }; then
+    if [ ! -x "$(command -v curl)" ]; then
+      if { [ "$DISTRO" == "ubuntu" ] || [ "$DISTRO" == "debian" ] || [ "$DISTRO" == "raspbian" ] || [ "$DISTRO" == "pop" ] || [ "$DISTRO" == "kali" ] || [ "$DISTRO" == "linuxmint" ]; }; then
+        apt-get update && apt-get upgrade -y && apt-get install curl -y
+      elif { [ "$DISTRO" == "fedora" ] || [ "$DISTRO" == "centos" ] || [ "$DISTRO" == "rhel" ]; }; then
+        yum update -y && yum install curl
+      elif { [ "$DISTRO" == "arch" ] || [ "$DISTRO" == "manjaro" ]; }; then
+        pacman -Syu && pacman -Syu --noconfirm curl
+      elif [ "$DISTRO" == "alpine" ]; then
+        apk update && apk add curl
+      elif [ "$DISTRO" == "freebsd" ]; then
+        pkg update && pkg install curl
+      fi
     fi
+  else
+    echo "Error: $DISTRO not supported."
+    exit
   fi
 }
 
@@ -64,10 +74,20 @@ previous-ghost-installation
 # Install Ghost Server
 function install-ghost-server() {
   if { [ ! -x "$(command -v ghost)" ] || [ ! -x "$(command -v node)" ] || [ ! -x "$(command -v npm)" ] || [ ! -x "$(command -v nginx)" ] || [ ! -x "$(command -v mysql)" ]; }; then
-    apt-get update
     curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash
-    apt-get install nginx mysql-server nodejs -y
-    npm install ghost-cli@latest -g
+    if { [ "$DISTRO" == "ubuntu" ] || [ "$DISTRO" == "debian" ] || [ "$DISTRO" == "raspbian" ] || [ "$DISTRO" == "pop" ] || [ "$DISTRO" == "kali" ] || [ "$DISTRO" == "linuxmint" ]; }; then
+      apt-get update
+      apt-get install nginx mysql-server nodejs -y
+      npm install ghost-cli@latest -g
+    elif { [ "$DISTRO" == "fedora" ] || [ "$DISTRO" == "centos" ] || [ "$DISTRO" == "rhel" ]; }; then
+      echo "hello, world"
+    elif { [ "$DISTRO" == "arch" ] || [ "$DISTRO" == "manjaro" ]; }; then
+      echo "hello, world"
+    elif [ "$DISTRO" == "alpine" ]; then
+      echo "hello, world"
+    elif [ "$DISTRO" == "freebsd" ]; then
+      echo "hello, world"
+    fi
   fi
 }
 
@@ -84,6 +104,6 @@ function configure-ghost() {
   echo "Username: $USERNAME"
   echo "Password: $PASSWORD"
   if [ -x "$(command -v ghost)" ]; then
-    ghost 
+    ghost
   fi
 }
