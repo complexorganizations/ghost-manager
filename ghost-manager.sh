@@ -70,6 +70,8 @@ function previous-ghost-installation() {
 # Exit the script if there are other installation
 previous-ghost-installation
 
+if [ ! -f "$GHOST_MANAGER_PATH" ]; then
+
 # Install Ghost Server
 function install-ghost-server() {
   if { [ ! -x "$(command -v ghost)" ] || [ ! -x "$(command -v node)" ] || [ ! -x "$(command -v npm)" ] || [ ! -x "$(command -v nginx)" ] || [ ! -x "$(command -v mysql)" ]; }; then
@@ -121,4 +123,40 @@ function configure-ghost() {
 if [ ! -f "$GHOST_MANAGER_PATH" ]; then
   mkdir -p $GHOST_PATH
   echo "Ghost: True" >>$GHOST_MANAGER_PATH
+fi
+
+else
+
+  function after-install-input() {
+    echo "What do you want to do?"
+    echo "   1) Option #1"
+    echo "   2) Option #2"
+    echo "   3) Option #3"
+    echo "   4) Option #4"
+    echo "   5) Option #5"
+    until [[ "$USER_OPTIONS" =~ ^[0-9]+$ ]] && [ "$USER_OPTIONS" -ge 1 ] && [ "$USER_OPTIONS" -le 5 ]; do
+      read -rp "Select an Option [1-5]: " -e -i 1 USER_OPTIONS
+    done
+    case $USER_OPTIONS in
+    1)
+      echo "Hello, World!"
+      ;;
+    2)
+      echo "Hello, World!"
+      ;;
+    3)
+      echo "Hello, World!"
+      ;;
+    4)
+      echo "Hello, World!"
+      ;;
+    5)
+      echo "Hello, World!"
+      ;;
+    esac
+  }
+
+  # run the function
+  after-install-input
+
 fi
