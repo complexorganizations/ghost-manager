@@ -97,12 +97,15 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
   install-ghost-server
 
   function configure-mysql() {
+    USERNAME="root"
     PASSWORD="$(openssl rand -base64 25)"
+    MYSQL_SERVER_IP="localhost"
     mysql
-    ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY "$PASSWORD"
+    ALTER USER "$USERNAME"@"$MYSQL_SERVER_IP" IDENTIFIED WITH mysql_native_password BY "$PASSWORD"
     quit
     echo "MySQL Information"
-    echo "Username: root"
+    echo "IP: $MYSQL_SERVER_IP"
+    echo "Username: $USERNAME"
     echo "Password: $PASSWORD"
   }
 
