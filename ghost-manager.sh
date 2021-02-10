@@ -29,6 +29,9 @@ GHOST_PATH="/var/www/html"
 GHOST_DEVELOPMENT_CONFIG_PATH="$GHOST_PATH/config.development.json"
 GHOST_PRODUCTION_CONFIG_PATH="$GHOST_PATH/config.production.json"
 GHOST_MANAGER_PATH="$GHOST_PATH/ghost-manager"
+GHOST_CONTENT_PATH="$GHOST_PATH/content"
+GHOST_BACKUP_PATH="/backup/content"
+GHOST_MANAGER_UPDATE_URL="https://raw.githubusercontent.com/complexorganizations/ghost-manager/main/ghost-manager.sh"
 
 # Pre-Checks system requirements
 function installing-system-requirements() {
@@ -144,9 +147,9 @@ else
 
   function after-install-input() {
     echo "What do you want to do?"
-    echo "   1) Option #1"
-    echo "   2) Option #2"
-    echo "   3) Option #3"
+    echo "   1) Update Ghost"
+    echo "   2) Backup Ghost"
+    echo "   3) Update This Script"
     echo "   4) Option #4"
     echo "   5) Option #5"
     until [[ "$USER_OPTIONS" =~ ^[0-9]+$ ]] && [ "$USER_OPTIONS" -ge 1 ] && [ "$USER_OPTIONS" -le 5 ]; do
@@ -154,13 +157,17 @@ else
     done
     case $USER_OPTIONS in
     1)
-      echo "Hello, World!"
+      ghost update
       ;;
     2)
-      echo "Hello, World!"
+      cp -r $GHOST_CONTENT_PATH $GHOST_BACKUP_PATH
       ;;
     3)
-      echo "Hello, World!"
+      CURRENT_FILE_PATH="$(realpath "$0")"
+      if [ -f "$CURRENT_FILE_PATH" ]; then
+        curl -o "$CURRENT_FILE_PATH" $GHOST_MANAGER_UPDATE_URL
+        chmod +x "$CURRENT_FILE_PATH" || exit
+      fi
       ;;
     4)
       echo "Hello, World!"
