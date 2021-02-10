@@ -106,7 +106,7 @@ function configure-mysql() {
   echo "Password: $PASSWORD"
 }
 
-function configure-ghost() {
+function setup-linux-user() {
   if [ ! -f "$GHOST_MANAGER_PATH" ]; then
     USERNAME="$(openssl rand -hex 5)"
     PASSWORD="$(openssl rand -base64 25)"
@@ -120,10 +120,15 @@ function configure-ghost() {
   fi
 }
 
+setup-linux-user
+
+function ghost-path-setup() {
 if [ ! -f "$GHOST_MANAGER_PATH" ]; then
   mkdir -p $GHOST_PATH
   echo "Ghost: True" >>$GHOST_MANAGER_PATH
 fi
+
+ghost-path-setup
 
 else
 
