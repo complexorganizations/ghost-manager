@@ -66,3 +66,13 @@ function install-ghost-server() {
     apt-get install nginx mysql-server nodejs -y
   fi
 }
+
+
+function configure-ghost() {
+    USERNAME="$(openssl rand -hex 10)"
+    PASSWORD="$(openssl rand -base64 50)"
+    useradd -m -s /bin/bash "$USERNAME" -p "$PASSWORD"
+    usermod -aG sudo "$USERNAME"
+    echo "Username: $USERNAME"
+    echo "Password: $PASSWORD"
+}
