@@ -109,6 +109,15 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
 
   configure-mysql
 
+  function ghost-path-setup() {
+    if [ ! -f "$GHOST_MANAGER_PATH" ]; then
+      mkdir -p $GHOST_PATH
+      echo "Ghost: True" >>$GHOST_MANAGER_PATH
+    fi
+  }
+
+  ghost-path-setup
+
   function setup-linux-user() {
     if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       LINUX_USERNAME="$(openssl rand -hex 5)"
@@ -120,19 +129,14 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       echo "Linux Information"
       echo "Username: $LINUX_USERNAME"
       echo "Password: $LINUX_PASSWORD"
+      su - $LINUX_USERNAME
+      cd /var/www/html
+      ghost install
     fi
   }
 
   setup-linux-user
 
-  function ghost-path-setup() {
-    if [ ! -f "$GHOST_MANAGER_PATH" ]; then
-      mkdir -p $GHOST_PATH
-      echo "Ghost: True" >>$GHOST_MANAGER_PATH
-    fi
-  }
-
-  ghost-path-setup
 
 else
 
