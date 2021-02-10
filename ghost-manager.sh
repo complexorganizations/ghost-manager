@@ -49,6 +49,7 @@ function previous-ghost-installation() {
   if [ -d "$GHOST_PATH" ]; then
     if { [ -x "$(command -v ghost)" ] || [ -f "$GHOST_DEVELOPMENT_CONFIG_PATH" ] || [ -f "$GHOST_PRODUCTION_CONFIG_PATH" ]; }; then
       echo "Another ghost installation has been discovered."
+      exit
     fi
   fi
 }
@@ -57,7 +58,7 @@ previous-ghost-installation
 
 
 function install-ghost-server() {
-  if [ ! -x "$(command -v wg)" ]; then
-    apt-get install nginx mysql-server
+  if { [ ! -x "$(command -v nginx)" ] || [ ! -x "$(command -v mysql)" ] || [ ! -x "$(command -v node)" ]; }; then
+    apt-get install nginx mysql-server nodejs -y
   fi
 }
