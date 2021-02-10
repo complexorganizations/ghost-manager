@@ -64,7 +64,7 @@ previous-ghost-installation
 
 # Install Ghost Server
 function install-ghost-server() {
-  if { [ ! -x "$(command -v nginx)" ] || [ ! -x "$(command -v mysql)" ] || [ ! -x "$(command -v node)" ] || [ ! -x "$(command -v npm)" ]; }; then
+  if { [ ! -x "$(command -v ghost)" ] || [ ! -x "$(command -v node)" ] || [ ! -x "$(command -v npm)" ] || [ ! -x "$(command -v nginx)" ] || [ ! -x "$(command -v mysql)" ]; }; then
     apt-get install nginx mysql-server nodejs npm -y
     npm install ghost-cli@latest -g
   fi
