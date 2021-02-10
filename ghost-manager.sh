@@ -25,25 +25,27 @@ function dist-check() {
 # Check Operating System
 dist-check
 
-# Pre-Checks system requirements
-function installing-system-requirements() {
-  if [ "$DISTRO" == "ubuntu" ] && { [ "$DISTRO_VERSION" == "16.04" ] && [ "$DISTRO_VERSION" == "18.04" ] && [ "$DISTRO_VERSION" == "20.04" ]; }; then
-    apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y
-  else
-    echo "Error: $DISTRO not supported."
-    exit
-  fi
-}
-
-# Run the function and check for requirements
-installing-system-requirements
-
 # Global variables
 GHOST_PATH="/var/www/html"
 GHOST_DEVELOPMENT_CONFIG_PATH="$GHOST_PATH/config.development.json"
 GHOST_PRODUCTION_CONFIG_PATH="$GHOST_PATH/config.production.json"
 GHOST_MANAGER_PATH="$GHOST_PATH/ghost-manager"
 NGINX_GLOBAL_CONFIG="/etc/nginx/nginx.conf"
+
+# Pre-Checks system requirements
+function installing-system-requirements() {
+  if [ ! -d "$GHOST_MANAGER_PATH" ]; then
+    if [ "$DISTRO" == "ubuntu" ] && { [ "$DISTRO_VERSION" == "16.04" ] && [ "$DISTRO_VERSION" == "18.04" ] && [ "$DISTRO_VERSION" == "20.04" ]; }; then
+      apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y
+    else
+      echo "Error: $DISTRO not supported."
+      exit
+    fi
+  fi
+}
+
+# Run the function and check for requirements
+installing-system-requirements
 
 function previous-ghost-installation() {
   if [ -d "$GHOST_PATH" ]; then
