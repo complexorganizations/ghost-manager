@@ -35,7 +35,7 @@ GHOST_MANAGER_PATH="$GHOST_PATH/ghost-manager"
 function installing-system-requirements() {
   if [ ! -d "$GHOST_MANAGER_PATH" ]; then
     if [ "$DISTRO" == "ubuntu" ] && { [ "$DISTRO_VERSION" == "16.04" ] && [ "$DISTRO_VERSION" == "18.04" ] && [ "$DISTRO_VERSION" == "20.04" ]; }; then
-      apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y
+      apt-get update && apt-get upgrade -y && apt-get install curl -y
     else
       echo "Error: $DISTRO not supported."
       exit
@@ -64,7 +64,9 @@ previous-ghost-installation
 # Install Ghost Server
 function install-ghost-server() {
   if { [ ! -x "$(command -v ghost)" ] || [ ! -x "$(command -v node)" ] || [ ! -x "$(command -v npm)" ] || [ ! -x "$(command -v nginx)" ] || [ ! -x "$(command -v mysql)" ]; }; then
-    apt-get install nginx mysql-server nodejs npm -y
+    apt-get update
+    curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash
+    apt-get install nginx mysql-server nodejs -y
     npm install ghost-cli@latest -g
   fi
 }
