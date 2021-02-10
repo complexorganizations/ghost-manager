@@ -47,6 +47,7 @@ function installing-system-requirements() {
 # Run the function and check for requirements
 installing-system-requirements
 
+# Check if there any other installation of ghost
 function previous-ghost-installation() {
   if [ -d "$GHOST_PATH" ]; then
     if [ ! -d "$GHOST_MANAGER_PATH" ]; then
@@ -58,21 +59,30 @@ function previous-ghost-installation() {
   fi
 }
 
+# Exit the script if there are other installation
 previous-ghost-installation
 
-
+# Install Ghost Server
 function install-ghost-server() {
-  if { [ ! -x "$(command -v nginx)" ] || [ ! -x "$(command -v mysql)" ] || [ ! -x "$(command -v node)" ]; }; then
-    apt-get install nginx mysql-server nodejs -y
+  if { [ ! -x "$(command -v nginx)" ] || [ ! -x "$(command -v mysql)" ] || [ ! -x "$(command -v node)" ] || [ ! -x "$(command -v npm)" ]; }; then
+    apt-get install nginx mysql-server nodejs npm -y
+    npm install ghost-cli@latest -g
   fi
 }
 
+# Install Ghost
+install-ghost-server
 
 function configure-ghost() {
-    USERNAME="$(openssl rand -hex 10)"
-    PASSWORD="$(openssl rand -base64 50)"
-    useradd -m -s /bin/bash "$USERNAME" -p "$PASSWORD"
-    usermod -aG sudo "$USERNAME"
-    echo "Username: $USERNAME"
-    echo "Password: $PASSWORD"
+  USERNAME="$(openssl rand -hex 10)"
+  PASSWORD="$(openssl rand -base64 50)"
+  useradd -m -s /bin/bash "$USERNAME" -p "$PASSWORD"
+  usermod -aG sudo "$USERNAME"
+  chown "$USERNAME":"$USERNAME" /var/www/html/
+  chmod 775 /var/www/html
+  echo "Username: $USERNAME"
+  echo "Password: $PASSWORD"
+  if [ -x "$(command -v ghost)" ]; then
+    ghost 
+  fi
 }
