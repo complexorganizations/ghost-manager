@@ -33,17 +33,17 @@ GHOST_MANAGER_PATH="$GHOST_PATH/ghost-manager"
 # Pre-Checks system requirements
 function installing-system-requirements() {
   if { [ "$DISTRO" == "ubuntu" ] || [ "$DISTRO" == "debian" ] || [ "$DISTRO" == "raspbian" ] || [ "$DISTRO" == "pop" ] || [ "$DISTRO" == "kali" ] || [ "$DISTRO" == "linuxmint" ] || [ "$DISTRO" == "fedora" ] || [ "$DISTRO" == "centos" ] || [ "$DISTRO" == "rhel" ] || [ "$DISTRO" == "arch" ] || [ "$DISTRO" == "manjaro" ] || [ "$DISTRO" == "alpine" ] || [ "$DISTRO" == "freebsd" ]; }; then
-    if [ ! -x "$(command -v curl)" ]; then
+    if { [ ! -x "$(command -v curl)" ] || [ ! -x "$(command -v openssl)" ]; }; then
       if { [ "$DISTRO" == "ubuntu" ] || [ "$DISTRO" == "debian" ] || [ "$DISTRO" == "raspbian" ] || [ "$DISTRO" == "pop" ] || [ "$DISTRO" == "kali" ] || [ "$DISTRO" == "linuxmint" ]; }; then
-        apt-get update && apt-get upgrade -y && apt-get install curl -y
+        apt-get update && apt-get upgrade -y && apt-get install curl openssl -y
       elif { [ "$DISTRO" == "fedora" ] || [ "$DISTRO" == "centos" ] || [ "$DISTRO" == "rhel" ]; }; then
-        yum update -y && yum install curl
+        yum update -y && yum install curl openssl
       elif { [ "$DISTRO" == "arch" ] || [ "$DISTRO" == "manjaro" ]; }; then
-        pacman -Syu && pacman -Syu --noconfirm curl
+        pacman -Syu && pacman -Syu --noconfirm curl openssl
       elif [ "$DISTRO" == "alpine" ]; then
-        apk update && apk add curl
+        apk update && apk add curl openssl
       elif [ "$DISTRO" == "freebsd" ]; then
-        pkg update && pkg install curl
+        pkg update && pkg install curl openssl
       fi
     fi
   else
@@ -78,8 +78,7 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash
       if { [ "$DISTRO" == "ubuntu" ] || [ "$DISTRO" == "debian" ] || [ "$DISTRO" == "raspbian" ] || [ "$DISTRO" == "pop" ] || [ "$DISTRO" == "kali" ] || [ "$DISTRO" == "linuxmint" ]; }; then
         apt-get update
-        apt-get install nginx mysql-server nodejs -y
-        npm install ghost-cli@latest -g
+        apt-get install nginx mariadb-server nodejs -y
       elif { [ "$DISTRO" == "fedora" ] || [ "$DISTRO" == "centos" ] || [ "$DISTRO" == "rhel" ]; }; then
         echo "hello, world"
       elif { [ "$DISTRO" == "arch" ] || [ "$DISTRO" == "manjaro" ]; }; then
@@ -97,29 +96,30 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
   install-ghost-server
 
   function configure-mysql() {
-    USERNAME="root"
-    PASSWORD="$(openssl rand -base64 25)"
-    MYSQL_SERVER_IP="localhost"
-    mysql
-    ALTER USER "$USERNAME"@"$MYSQL_SERVER_IP" IDENTIFIED WITH mysql_native_password BY "$PASSWORD"
-    quit
-    echo "MySQL Information"
-    echo "IP: $MYSQL_SERVER_IP"
-    echo "Username: $USERNAME"
-    echo "Password: $PASSWORD"
+    MYSQL_DB_IP="localhost"
+    MYSQL_DB_PORT="3306"
+    MYSQL_DB_USER="root"
+    MYSQL_DB_PASSWORD="$(openssl rand -base64 25)"
+    # mysql -e "ALTER USER "$MYSQL_DB_USER"@"$MYSQL_SERVER_IP" IDENTIFIED WITH mysql_native_password BY "$PASSWORD";"
+    echo "IP Address: $MYSQL_DB_IP"
+    echo "Port: $MYSQL_DB_PORT"
+    echo "Username: $MYSQL_DB_USER"
+    echo "Password: $MYSQL_DB_PASSWORD"
   }
+
+  configure-mysql
 
   function setup-linux-user() {
     if [ ! -f "$GHOST_MANAGER_PATH" ]; then
-      USERNAME="$(openssl rand -hex 5)"
-      PASSWORD="$(openssl rand -base64 25)"
+      LINUX_USERNAME="$(openssl rand -hex 5)"
+      LINUX_PASSWORD="$(openssl rand -base64 25)"
       useradd -m -s /bin/bash "$USERNAME" -p "$PASSWORD"
       usermod -aG sudo "$USERNAME"
       chown "$USERNAME":"$USERNAME" /var/www/html/
       chmod 775 /var/www/html
       echo "Linux Information"
-      echo "Username: $USERNAME"
-      echo "Password: $PASSWORD"
+      echo "Username: $LINUX_USERNAME"
+      echo "Password: $LINUX_PASSWORD"
     fi
   }
 
