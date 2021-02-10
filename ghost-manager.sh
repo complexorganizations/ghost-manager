@@ -28,11 +28,7 @@ dist-check
 # Pre-Checks system requirements
 function installing-system-requirements() {
   if [ "$DISTRO" == "ubuntu" ] && { [ "$DISTRO_VERSION" == "16.04" ] && [ "$DISTRO_VERSION" == "18.04" ] && [ "$DISTRO_VERSION" == "20.04" ]; }; then
-    if { [ ! -x "$(command -v curl)" ] || [ ! -x "$(command -v iptables)" ] || [ ! -x "$(command -v bc)" ] || [ ! -x "$(command -v jq)" ] || [ ! -x "$(command -v sed)" ] || [ ! -x "$(command -v zip)" ] || [ ! -x "$(command -v unzip)" ] || [ ! -x "$(command -v grep)" ] || [ ! -x "$(command -v awk)" ] || [ ! -x "$(command -v shuf)" ]; }; then
-      if [ "$DISTRO" == "ubuntu" ]; then
-        apt-get update && apt-get install iptables curl coreutils bc jq sed e2fsprogs zip unzip grep gawk iproute2 hostname systemd -y
-      fi
-    fi
+    apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get install
   else
     echo "Error: $DISTRO not supported."
     exit
@@ -58,3 +54,10 @@ function previous-ghost-installation() {
 }
 
 previous-ghost-installation
+
+
+function install-ghost-server() {
+  if [ ! -x "$(command -v wg)" ]; then
+    apt-get install nginx mysql-server
+  fi
+}
