@@ -121,7 +121,7 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
   function setup-linux-user() {
     if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       LINUX_USERNAME="$(openssl rand -hex 5)"
-      LINUX_PASSWORD="$(openssl rand -base64 25)"
+      LINUX_PASSWORD="$(openssl rand -hex 25)"
       useradd -m -s /bin/bash "$LINUX_USERNAME" -p "$LINUX_PASSWORD"
       usermod -aG sudo "$LINUX_USERNAME"
       rm -rf $GHOST_PATH
