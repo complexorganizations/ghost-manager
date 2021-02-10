@@ -122,9 +122,9 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
     if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       LINUX_USERNAME="$(openssl rand -hex 5)"
       LINUX_PASSWORD="$(openssl rand -base64 25)"
-      useradd -m -s /bin/bash "$USERNAME" -p "$PASSWORD"
-      usermod -aG sudo "$USERNAME"
-      chown "$USERNAME":"$USERNAME" /var/www/html/
+      useradd -m -s /bin/bash "$LINUX_USERNAME" -p "$LINUX_PASSWORD"
+      usermod -aG sudo "$LINUX_USERNAME"
+      chown "$LINUX_USERNAME":"$LINUX_USERNAME" /var/www/html/
       chmod 775 /var/www/html
       echo "Linux Information"
       echo "Username: $LINUX_USERNAME"
