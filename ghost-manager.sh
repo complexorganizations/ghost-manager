@@ -128,7 +128,6 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       LINUX_PASSWORD="$(openssl rand -hex 10)"
       useradd -m -s /bin/bash "$LINUX_USERNAME" -p "$LINUX_PASSWORD"
       usermod -aG sudo "$LINUX_USERNAME"
-      echo "$LINUX_PASSWORD" | passwd --stdin "$LINUX_USERNAME"
       rm -rf $GHOST_PATH
       mkdir -p $GHOST_PATH
       chown "$LINUX_USERNAME":"$LINUX_USERNAME" $GHOST_PATH
