@@ -122,7 +122,7 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
     usermod -aG sudo "$LINUX_USERNAME"
     chown "$LINUX_USERNAME":"$LINUX_USERNAME" $GHOST_PATH
     chmod 775 $GHOST_PATH
-    cd "$GHOST_PATH"
+    cd "$GHOST_PATH" || exit
     echo "Linux Information"
     echo "Username: $LINUX_USERNAME"
     echo "Password: $LINUX_PASSWORD"
