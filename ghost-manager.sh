@@ -99,22 +99,21 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
   install-ghost-server
 
   function configure-mysql() {
-    MYSQL_DB_IP="localhost"
-    MYSQL_DB_PORT="3306"
-    MYSQL_DB_USER="root"
-    MYSQL_DB_PASSWORD="$(openssl rand -hex 10)"
-    printf "n\n n\n y\n y\n y\n y\n" | mysql_secure_installation
-    mysql -e "ALTER USER '$MYSQL_DB_USER'@'$MYSQL_DB_IP' IDENTIFIED BY '$MYSQL_DB_PASSWORD';"
-    echo "IP Address: $MYSQL_DB_IP"
-    echo "Port: $MYSQL_DB_PORT"
-    echo "Username: $MYSQL_DB_USER"
-    echo "Password: $MYSQL_DB_PASSWORD"
+      MYSQL_DB_IP="localhost"
+      MYSQL_DB_PORT="3306"
+      MYSQL_DB_USER="root"
+      MYSQL_DB_PASSWORD="$(openssl rand -hex 10)"
+      printf "n\n n\n y\n y\n y\n y\n" | mysql_secure_installation
+      mysql -e "ALTER USER '$MYSQL_DB_USER'@'$MYSQL_DB_IP' IDENTIFIED BY '$MYSQL_DB_PASSWORD';"
+      echo "IP Address: $MYSQL_DB_IP"
+      echo "Port: $MYSQL_DB_PORT"
+      echo "Username: $MYSQL_DB_USER"
+      echo "Password: $MYSQL_DB_PASSWORD"
   }
 
   configure-mysql
 
   function setup-linux-user() {
-    if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       rm -rf $GHOST_PATH
       mkdir -p $GHOST_PATH
       LINUX_USERNAME="$(openssl rand -hex 5)"
@@ -127,7 +126,6 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       echo "Username: $LINUX_USERNAME"
       echo "Password: $LINUX_PASSWORD"
       sudo -u "$LINUX_USERNAME" cd "$GHOST_PATH" && ghost install
-    fi
   }
 
   setup-linux-user
