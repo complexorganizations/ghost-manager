@@ -106,6 +106,7 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
     MYSQL_DB_PASSWORD="$(openssl rand -hex 10)"
     printf "n\n n\n y\n y\n y\n y\n" | mysql_secure_installation
     mysql -e "ALTER USER '$MYSQL_DB_USER'@'$MYSQL_DB_IP' IDENTIFIED BY '$MYSQL_DB_PASSWORD';"
+    echo "MySQL Information"
     echo "IP Address: $MYSQL_DB_IP"
     echo "Port: $MYSQL_DB_PORT"
     echo "Username: $MYSQL_DB_USER"
