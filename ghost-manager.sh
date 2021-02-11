@@ -135,9 +135,7 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       echo "Linux Information"
       echo "Username: $LINUX_USERNAME"
       echo "Password: $LINUX_PASSWORD"
-      su "$LINUX_USERNAME"
-      cd $GHOST_PATH || exit
-      ghost install
+      sudo -u "$LINUX_USERNAME" cd "$GHOST_PATH" && ghost install
     fi
   }
 
