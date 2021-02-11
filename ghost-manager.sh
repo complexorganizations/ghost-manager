@@ -101,17 +101,17 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
 
   function configure-mysql() {
     if [ -x "$(command -v mysql)" ]; then
-    MYSQL_DB_IP="localhost"
-    MYSQL_DB_PORT="3306"
-    MYSQL_DB_USER="root"
-    MYSQL_DB_PASSWORD="$(openssl rand -hex 10)"
-    printf "n\n n\n y\n y\n y\n y\n" | mysql_secure_installation
-    mysql -e "ALTER USER '$MYSQL_DB_USER'@'$MYSQL_DB_IP' IDENTIFIED BY '$MYSQL_DB_PASSWORD';"
-    echo "MySQL Information"
-    echo "IP Address: $MYSQL_DB_IP"
-    echo "Port: $MYSQL_DB_PORT"
-    echo "Username: $MYSQL_DB_USER"
-    echo "Password: $MYSQL_DB_PASSWORD"
+      MYSQL_DB_IP="localhost"
+      MYSQL_DB_PORT="3306"
+      MYSQL_DB_USER="root"
+      MYSQL_DB_PASSWORD="$(openssl rand -hex 10)"
+      printf "n\n n\n y\n y\n y\n y\n" | mysql_secure_installation
+      mysql -e "ALTER USER '$MYSQL_DB_USER'@'$MYSQL_DB_IP' IDENTIFIED BY '$MYSQL_DB_PASSWORD';"
+      echo "MySQL Information"
+      echo "IP Address: $MYSQL_DB_IP"
+      echo "Port: $MYSQL_DB_PORT"
+      echo "Username: $MYSQL_DB_USER"
+      echo "Password: $MYSQL_DB_PASSWORD"
     fi
   }
 
@@ -119,20 +119,20 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
 
   function setup-linux-user() {
     if [ -x "$(command -v mysql)" ]; then
-    rm -rf $GHOST_PATH
-    mkdir -p $GHOST_PATH
-    LINUX_USERNAME="$(openssl rand -hex 5)"
-    LINUX_PASSWORD="$(openssl rand -hex 10)"
-    useradd -m -s /bin/bash "$LINUX_USERNAME"
-    echo -e "$LINUX_PASSWORD\n$LINUX_PASSWORD" | passwd "$LINUX_USERNAME"
-    usermod -aG sudo "$LINUX_USERNAME"
-    chown "$LINUX_USERNAME":"$LINUX_USERNAME" $GHOST_PATH
-    chmod 775 $GHOST_PATH
-    cd "$GHOST_PATH" || exit
-    echo "Linux Information"
-    echo "Username: $LINUX_USERNAME"
-    echo "Password: $LINUX_PASSWORD"
-    sudo -u "$LINUX_USERNAME" ghost install
+      rm -rf $GHOST_PATH
+      mkdir -p $GHOST_PATH
+      LINUX_USERNAME="$(openssl rand -hex 5)"
+      LINUX_PASSWORD="$(openssl rand -hex 10)"
+      useradd -m -s /bin/bash "$LINUX_USERNAME"
+      echo -e "$LINUX_PASSWORD\n$LINUX_PASSWORD" | passwd "$LINUX_USERNAME"
+      usermod -aG sudo "$LINUX_USERNAME"
+      chown "$LINUX_USERNAME":"$LINUX_USERNAME" $GHOST_PATH
+      chmod 775 $GHOST_PATH
+      cd "$GHOST_PATH" || exit
+      echo "Linux Information"
+      echo "Username: $LINUX_USERNAME"
+      echo "Password: $LINUX_PASSWORD"
+      sudo -u "$LINUX_USERNAME" ghost install
     fi
   }
 
