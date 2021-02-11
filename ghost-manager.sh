@@ -60,20 +60,20 @@ installing-system-requirements
 
 if [ ! -f "$GHOST_MANAGER_PATH" ]; then
 
-# Check if there any other installation of ghost
-function previous-ghost-installation() {
-  if [ -d "$GHOST_PATH" ]; then
-    if [ ! -d "$GHOST_MANAGER_PATH" ]; then
-      if { [ -f "$GHOST_DEVELOPMENT_CONFIG_PATH" ] || [ -f "$GHOST_PRODUCTION_CONFIG_PATH" ]; }; then
-        echo "Another ghost installation has been discovered."
-        exit
+  # Check if there any other installation of ghost
+  function previous-ghost-installation() {
+    if [ -d "$GHOST_PATH" ]; then
+      if [ ! -d "$GHOST_MANAGER_PATH" ]; then
+        if { [ -f "$GHOST_DEVELOPMENT_CONFIG_PATH" ] || [ -f "$GHOST_PRODUCTION_CONFIG_PATH" ]; }; then
+          echo "Another ghost installation has been discovered."
+          exit
+        fi
       fi
     fi
-  fi
-}
+  }
 
-# Exit the script if there are other installation
-previous-ghost-installation
+  # Exit the script if there are other installation
+  previous-ghost-installation
 
   # Install Ghost Server
   function install-ghost-server() {
@@ -159,9 +159,10 @@ else
     echo "   1) Update Ghost"
     echo "   2) Start Ghost"
     echo "   3) Stop Ghost"
-    echo "   4) Backup Ghost"
-    echo "   5) Update This Script"
-    until [[ "$USER_OPTIONS" =~ ^[0-9]+$ ]] && [ "$USER_OPTIONS" -ge 1 ] && [ "$USER_OPTIONS" -le 5 ]; do
+    echo "   4) Ghost Doctor"
+    echo "   5) Backup Ghost"
+    echo "   6) Update This Script"
+    until [[ "$USER_OPTIONS" =~ ^[0-9]+$ ]] && [ "$USER_OPTIONS" -ge 1 ] && [ "$USER_OPTIONS" -le 6 ]; do
       read -rp "Select an Option [1-5]: " -e -i 1 USER_OPTIONS
     done
     case $USER_OPTIONS in
@@ -175,12 +176,15 @@ else
       ghost stop
       ;;
     4)
+      ghost doctor
+      ;;
+    5)
       if [ -d "$GHOST_CONTENT_PATH" ]; then
         rm -rf $GHOST_BACKUP_PATH
         cp -r $GHOST_CONTENT_PATH $GHOST_BACKUP_PATH
       fi
       ;;
-    5)
+    6)
       CURRENT_FILE_PATH="$(realpath "$0")"
       if [ -f "$CURRENT_FILE_PATH" ]; then
         curl -o "$CURRENT_FILE_PATH" $GHOST_MANAGER_UPDATE_URL
