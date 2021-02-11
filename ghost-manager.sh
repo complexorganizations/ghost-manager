@@ -154,10 +154,10 @@ else
   function after-install-input() {
     echo "What do you want to do?"
     echo "   1) Update Ghost"
-    echo "   2) Backup Ghost"
-    echo "   3) Update This Script"
-    echo "   4) Option #4"
-    echo "   5) Option #5"
+    echo "   2) Start Ghost"
+    echo "   3) Stop Ghost"
+    echo "   4) Backup Ghost"
+    echo "   5) Update This Script"
     until [[ "$USER_OPTIONS" =~ ^[0-9]+$ ]] && [ "$USER_OPTIONS" -ge 1 ] && [ "$USER_OPTIONS" -le 5 ]; do
       read -rp "Select an Option [1-5]: " -e -i 1 USER_OPTIONS
     done
@@ -166,23 +166,23 @@ else
       ghost update
       ;;
     2)
+      ghost start
+      ;;
+    3)
+      ghost stop
+      ;;
+    4)
       if [ -d "$GHOST_CONTENT_PATH" ]; then
         rm -rf $GHOST_BACKUP_PATH
         cp -r $GHOST_CONTENT_PATH $GHOST_BACKUP_PATH
       fi
       ;;
-    3)
+    5)
       CURRENT_FILE_PATH="$(realpath "$0")"
       if [ -f "$CURRENT_FILE_PATH" ]; then
         curl -o "$CURRENT_FILE_PATH" $GHOST_MANAGER_UPDATE_URL
         chmod +x "$CURRENT_FILE_PATH" || exit
       fi
-      ;;
-    4)
-      echo "Hello, World!"
-      ;;
-    5)
-      echo "Hello, World!"
       ;;
     esac
   }
