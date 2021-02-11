@@ -87,11 +87,12 @@ previous-ghost-installation
         yum update
         yum install nginx mariadb-server nodejs -y
       elif { [ "$DISTRO" == "arch" ] || [ "$DISTRO" == "manjaro" ]; }; then
-        echo "hello, world"
+        pacman -Syu
+        pacman -Syu --noconfirm nginx mariadb nodejs
       elif [ "$DISTRO" == "alpine" ]; then
-        echo "hello, world"
+        apk add nginx mariadb nodejs
       elif [ "$DISTRO" == "freebsd" ]; then
-        echo "hello, world"
+        pkg install nginx mariadb nodejs
       fi
       npm install ghost-cli@latest -g
     fi
