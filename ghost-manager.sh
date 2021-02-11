@@ -159,10 +159,13 @@ else
     echo "   1) Update Ghost"
     echo "   2) Start Ghost"
     echo "   3) Stop Ghost"
-    echo "   4) Ghost Doctor"
-    echo "   5) Backup Ghost"
-    echo "   6) Update This Script"
-    until [[ "$USER_OPTIONS" =~ ^[0-9]+$ ]] && [ "$USER_OPTIONS" -ge 1 ] && [ "$USER_OPTIONS" -le 6 ]; do
+    echo "   4) Restart Ghost"
+    echo "   5) Ghost Doctor"
+    echo "   6) Ghost Log"
+    echo "   7) Backup Ghost"
+    echo "   8) Backup Uninstall"
+    echo "   9) Update This Script"
+    until [[ "$USER_OPTIONS" =~ ^[0-9]+$ ]] && [ "$USER_OPTIONS" -ge 1 ] && [ "$USER_OPTIONS" -le 9 ]; do
       read -rp "Select an Option [1-5]: " -e -i 1 USER_OPTIONS
     done
     case $USER_OPTIONS in
@@ -176,15 +179,24 @@ else
       ghost stop
       ;;
     4)
-      ghost doctor
+      ghost restart
       ;;
     5)
+      ghost doctor
+      ;;
+    6)
+      ghost log
+      ;;
+    7)
       if [ -d "$GHOST_CONTENT_PATH" ]; then
         rm -rf $GHOST_BACKUP_PATH
         cp -r $GHOST_CONTENT_PATH $GHOST_BACKUP_PATH
       fi
       ;;
-    6)
+    8)
+      ghost uninstall
+      ;;
+    9)
       CURRENT_FILE_PATH="$(realpath "$0")"
       if [ -f "$CURRENT_FILE_PATH" ]; then
         curl -o "$CURRENT_FILE_PATH" $GHOST_MANAGER_UPDATE_URL
