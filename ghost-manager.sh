@@ -170,21 +170,27 @@ else
     done
     case $USER_OPTIONS in
     1)
+      cd $GHOST_PATH || exit
       ghost update
       ;;
     2)
+      cd $GHOST_PATH || exit
       ghost start
       ;;
     3)
+      cd $GHOST_PATH || exit
       ghost stop
       ;;
     4)
+      cd $GHOST_PATH || exit
       ghost restart
       ;;
     5)
+      cd $GHOST_PATH || exit
       ghost doctor
       ;;
     6)
+      cd $GHOST_PATH || exit
       ghost log
       ;;
     7)
@@ -194,6 +200,7 @@ else
       fi
       ;;
     8)
+      cd $GHOST_PATH || exit
       ghost uninstall
       ;;
     9)
