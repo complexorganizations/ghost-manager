@@ -100,7 +100,7 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
   install-ghost-server
 
   function configure-mysql() {
-    MYSQL_DB_IP="localhost"
+    MYSQL_DB_IP="127.0.0.1"
     MYSQL_DB_PORT="3306"
     MYSQL_DB_USER="root"
     MYSQL_DB_PASSWORD="$(openssl rand -hex 10)"
