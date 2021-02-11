@@ -124,7 +124,7 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
     LINUX_USERNAME="$(openssl rand -hex 5)"
     LINUX_PASSWORD="$(openssl rand -hex 10)"
     useradd -m -s /bin/bash "$LINUX_USERNAME"
-    echo -e "$LINUX_PASSWORD\n$LINUX_PASSWORD" | passwd $LINUX_USERNAME
+    echo -e "$LINUX_PASSWORD\n$LINUX_PASSWORD" | passwd "$LINUX_USERNAME"
     usermod -aG sudo "$LINUX_USERNAME"
     chown "$LINUX_USERNAME":"$LINUX_USERNAME" $GHOST_PATH
     chmod 775 $GHOST_PATH
