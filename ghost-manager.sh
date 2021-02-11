@@ -58,6 +58,8 @@ function installing-system-requirements() {
 # Run the function and check for requirements
 installing-system-requirements
 
+if [ ! -f "$GHOST_MANAGER_PATH" ]; then
+
 # Check if there any other installation of ghost
 function previous-ghost-installation() {
   if [ -d "$GHOST_PATH" ]; then
@@ -72,8 +74,6 @@ function previous-ghost-installation() {
 
 # Exit the script if there are other installation
 previous-ghost-installation
-
-if [ ! -f "$GHOST_MANAGER_PATH" ]; then
 
   # Install Ghost Server
   function install-ghost-server() {
