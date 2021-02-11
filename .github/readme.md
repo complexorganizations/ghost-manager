@@ -10,7 +10,11 @@
 ---
 ### Q&A
 Why not use the offical installation?
-- Using this installer updates are pushed faster, and more distro are supported.
+- We recommend that you use the official installer, but if you are looking for more features or support for more distros than welcome my children, this is a community led manager.
+
+What can you do that the official ghost cannot?
+- Support on almost any distro
+- Automated Tasks (Installation, Backups, Maintaince...)
 
 ---
 ### Author
