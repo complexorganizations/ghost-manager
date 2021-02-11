@@ -166,7 +166,7 @@ else
       ;;
     2)
       if [ -d "$GHOST_CONTENT_PATH" ]; then
-        rm -f $GHOST_BACKUP_PATH
+        rm -rf $GHOST_BACKUP_PATH
         cp -r $GHOST_CONTENT_PATH $GHOST_BACKUP_PATH
       fi
       ;;
