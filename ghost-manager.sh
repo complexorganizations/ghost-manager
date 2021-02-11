@@ -100,7 +100,8 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
   install-ghost-server
 
   function configure-mysql() {
-    MYSQL_DB_IP="127.0.0.1"
+    if [ -x "$(command -v mysql)" ]; then
+    MYSQL_DB_IP="localhost"
     MYSQL_DB_PORT="3306"
     MYSQL_DB_USER="root"
     MYSQL_DB_PASSWORD="$(openssl rand -hex 10)"
@@ -111,18 +112,19 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
     echo "Port: $MYSQL_DB_PORT"
     echo "Username: $MYSQL_DB_USER"
     echo "Password: $MYSQL_DB_PASSWORD"
+    fi
   }
 
   configure-mysql
 
   function setup-linux-user() {
+    if [ -x "$(command -v mysql)" ]; then
     rm -rf $GHOST_PATH
     mkdir -p $GHOST_PATH
     LINUX_USERNAME="$(openssl rand -hex 5)"
     LINUX_PASSWORD="$(openssl rand -hex 10)"
     useradd -m -s /bin/bash "$LINUX_USERNAME" -p "$LINUX_PASSWORD"
     usermod -aG sudo "$LINUX_USERNAME"
-    echo "$LINUX_USERNAME ALL = (ALL): ALL" >>/etc/sudoers
     chown "$LINUX_USERNAME":"$LINUX_USERNAME" $GHOST_PATH
     chmod 775 $GHOST_PATH
     cd "$GHOST_PATH" || exit
@@ -130,6 +132,7 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
     echo "Username: $LINUX_USERNAME"
     echo "Password: $LINUX_PASSWORD"
     sudo -u "$LINUX_USERNAME" ghost install
+    fi
   }
 
   setup-linux-user
