@@ -83,7 +83,8 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
         apt-get update
         apt-get install nginx mariadb-server nodejs -y
       elif { [ "$DISTRO" == "fedora" ] || [ "$DISTRO" == "centos" ] || [ "$DISTRO" == "rhel" ]; }; then
-        echo "hello, world"
+        yum update
+        yum install nginx mariadb-server nodejs -y
       elif { [ "$DISTRO" == "arch" ] || [ "$DISTRO" == "manjaro" ]; }; then
         echo "hello, world"
       elif [ "$DISTRO" == "alpine" ]; then
