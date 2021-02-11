@@ -102,7 +102,7 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
     MYSQL_DB_IP="localhost"
     MYSQL_DB_PORT="3306"
     MYSQL_DB_USER="root"
-    MYSQL_DB_PASSWORD="$(openssl rand -hex 25)"
+    MYSQL_DB_PASSWORD="$(openssl rand -hex 10)"
     # mysql_secure_installation
     mysql -e "ALTER USER '$MYSQL_DB_USER'@'$MYSQL_DB_IP' IDENTIFIED BY '$MYSQL_DB_PASSWORD';"
     echo "IP Address: $MYSQL_DB_IP"
@@ -125,7 +125,7 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
   function setup-linux-user() {
     if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       LINUX_USERNAME="$(openssl rand -hex 5)"
-      LINUX_PASSWORD="$(openssl rand -hex 25)"
+      LINUX_PASSWORD="$(openssl rand -hex 10)"
       useradd -m -s /bin/bash "$LINUX_USERNAME" -p "$LINUX_PASSWORD"
       usermod -aG sudo "$LINUX_USERNAME"
       echo "$LINUX_PASSWORD" | passwd --stdin "$LINUX_USERNAME"
