@@ -122,17 +122,20 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       usermod -aG sudo "$LINUX_USERNAME"
       chown "$LINUX_USERNAME":"$LINUX_USERNAME" $GHOST_PATH
       chmod 775 $GHOST_PATH
+      cd "$GHOST_PATH"
       echo "Linux Information"
       echo "Username: $LINUX_USERNAME"
       echo "Password: $LINUX_PASSWORD"
-      sudo -u "$LINUX_USERNAME" cd "$GHOST_PATH" && ghost install
+      sudo -u "$LINUX_USERNAME" ghost install
   }
 
   setup-linux-user
   
   function ghost-path-setup() {
+    if [ -d "$GHOST_CONTENT_PATH" ]; then
     if [ ! -f "$GHOST_MANAGER_PATH" ]; then
       echo "Ghost: True" >>$GHOST_MANAGER_PATH
+    fi
     fi
   }
 
