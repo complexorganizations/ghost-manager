@@ -103,6 +103,7 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
     MYSQL_DB_PORT="3306"
     MYSQL_DB_USER="root"
     MYSQL_DB_PASSWORD="$(openssl rand -base64 25)"
+    # mysql_secure_installation
     mysql -e "ALTER USER '$MYSQL_DB_USER'@'$MYSQL_DB_IP' IDENTIFIED BY '$MYSQL_DB_PASSWORD';"
     echo "IP Address: $MYSQL_DB_IP"
     echo "Port: $MYSQL_DB_PORT"
