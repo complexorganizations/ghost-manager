@@ -62,7 +62,7 @@ installing-system-requirements
 function previous-ghost-installation() {
   if [ -d "$GHOST_PATH" ]; then
     if [ ! -d "$GHOST_MANAGER_PATH" ]; then
-      if { [ -x "$(command -v ghost)" ] || [ -f "$GHOST_DEVELOPMENT_CONFIG_PATH" ] || [ -f "$GHOST_PRODUCTION_CONFIG_PATH" ]; }; then
+      if { [ -f "$GHOST_DEVELOPMENT_CONFIG_PATH" ] || [ -f "$GHOST_PRODUCTION_CONFIG_PATH" ]; }; then
         echo "Another ghost installation has been discovered."
         exit
       fi
