@@ -120,7 +120,7 @@ if [ ! -f "$GHOST_MANAGER_PATH" ]; then
   configure-mysql
 
   function setup-linux-user() {
-    if [ -x "$(command -v mysql)" ]; then
+    if [ -x "$(command -v useradd)" ]; then
       rm -rf $GHOST_PATH
       mkdir -p $GHOST_PATH
       LINUX_USERNAME="$(openssl rand -hex 5)"
