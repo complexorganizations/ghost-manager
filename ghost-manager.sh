@@ -79,11 +79,11 @@ if [ ! -f "${GHOST_MANAGER_PATH}" ]; then
   function install-ghost-server() {
     if { [ ! -x "$(command -v ghost)" ] || [ ! -x "$(command -v node)" ] || [ ! -x "$(command -v npm)" ] || [ ! -x "$(command -v nginx)" ] || [ ! -x "$(command -v mysql)" ]; }; then
       if { [ "${DISTRO}" == "ubuntu" ] || [ "${DISTRO}" == "debian" ] || [ "${DISTRO}" == "raspbian" ] || [ "${DISTRO}" == "pop" ] || [ "${DISTRO}" == "kali" ] || [ "${DISTRO}" == "linuxmint" ]; }; then
-        curl -sL https://deb.nodesource.com/setup_12.x | bash -
+        curl -sL https://deb.nodesource.com/setup_14.x | bash -
         apt-get update
         apt-get install nginx mariadb-server nodejs -y
       elif { [ "${DISTRO}" == "fedora" ] || [ "${DISTRO}" == "centos" ] || [ "${DISTRO}" == "rhel" ]; }; then
-        curl -sL https://rpm.nodesource.com/setup_12.x | bash -
+        curl -sL https://rpm.nodesource.com/setup_14.x | bash -
         yum update
         yum install nginx mariadb-server nodejs -y
       elif { [ "${DISTRO}" == "arch" ] || [ "${DISTRO}" == "manjaro" ]; }; then
