@@ -122,19 +122,19 @@ if [ ! -f "${GHOST_MANAGER_PATH}" ]; then
 
   function setup-linux-user() {
     if [ -x "$(command -v useradd)" ]; then
-      rm -rf ${GHOST_PATH}*
+      rm -rf ${GHOST_PATH}/*
       LINUX_USERNAME="$(openssl rand -hex 5)"
       LINUX_PASSWORD="$(openssl rand -hex 10)"
       useradd -m -s /bin/bash "${LINUX_USERNAME}"
       echo -e "${LINUX_PASSWORD}\n${LINUX_PASSWORD}" | passwd "${LINUX_USERNAME}"
       usermod -aG sudo "${LINUX_USERNAME}"
+      echo "Linux Information"
+      echo "Username: ${LINUX_USERNAME}"
+      echo "Password: ${LINUX_PASSWORD}"
       chmod 775 ${GHOST_PATH}
       chown "${LINUX_USERNAME}":"${LINUX_USERNAME}" ${GHOST_PATH}
       cd "${GHOST_PATH}" || exit
       sudo -u "${LINUX_USERNAME}" ghost install
-      echo "Linux Information"
-      echo "Username: ${LINUX_USERNAME}"
-      echo "Password: ${LINUX_PASSWORD}"
     fi
   }
 
