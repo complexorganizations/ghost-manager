@@ -122,7 +122,7 @@ if [ ! -f "${GHOST_MANAGER_PATH}" ]; then
 
   function setup-linux-user() {
     if [ -x "$(command -v useradd)" ]; then
-      rm -rf ${GHOST_PATH}/*
+      rm -f ${GHOST_PATH}/index.nginx-debian.html
       LINUX_USERNAME="$(openssl rand -hex 5)"
       LINUX_PASSWORD="$(openssl rand -hex 10)"
       useradd -m -s /bin/bash "${LINUX_USERNAME}"
